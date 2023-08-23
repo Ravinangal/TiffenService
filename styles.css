@@ -90,8 +90,8 @@ h1{
     gap:1rem;
 }
 .product>img{
-    width: 275px;
-    height: 185px;
+    width: 255px;
+    height: 165px;
     object-fit: cover;
     border-radius: 15px;
 }
