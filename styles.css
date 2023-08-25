@@ -139,7 +139,10 @@ h1{
 th{
     font-size: xx-large;
 }
-
+.total{
+    font-size: xx-large;
+    text-align: right;
+}
 
 
 

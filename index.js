@@ -13,8 +13,12 @@ $(document).ready(function(){
 document.addEventListener('DOMContentLoaded', function () {
   const products = document.querySelectorAll('.product');
   const cartItemsTable = document.querySelector('.cart-items tbody');
+  const totalValueElement = document.querySelector('.total-value');
 
-  products.forEach(product => {
+  const prices = [5, 7, 9, 11, 12]; // Prices for the five products
+  let cartTotal = 0;
+
+  products.forEach((product, index) => {
     const plusBtn = product.querySelector('.plus-btn');
     const minusBtn = product.querySelector('.minus-btn');
     const productCount = product.querySelector('.product-count');
@@ -24,19 +28,19 @@ document.addEventListener('DOMContentLoaded', function () {
     plusBtn.addEventListener('click', function () {
       count++;
       productCount.textContent = count;
-      updateCart(product, count);
+      updateCart(product, count, prices[index]);
     });
 
     minusBtn.addEventListener('click', function () {
       if (count > 0) {
         count--;
         productCount.textContent = count;
-        updateCart(product, count);
+        updateCart(product, count, prices[index]);
       }
     });
   });
 
-  function updateCart(product, count) {
+  function updateCart(product, count, price) {
     const productName = product.querySelector('img').alt;
     const existingCartItem = cartItemsTable.querySelector(`tr[data-product="${productName}"]`);
 
@@ -45,15 +49,31 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (count > 0) {
       if (existingCartItem) {
         existingCartItem.querySelector('.cart-item-count').textContent = count;
+        existingCartItem.querySelector('.cart-item-price').textContent = `₹${count * price}`;
       } else {
         const cartRow = document.createElement('tr');
         cartRow.dataset.product = productName;
         cartRow.innerHTML = `
           <td>${productName}</td>
           <td class="cart-item-count">${count}</td>
+          <td class="cart-item-price">₹ ${count * price}</td>
         `;
         cartItemsTable.appendChild(cartRow);
       }
     }
+
+    // Recalculate and update total value
+    cartTotal = calculateTotal();
+    totalValueElement.textContent = `₹${cartTotal}`;
+  }
+
+  function calculateTotal() {
+    let total = 0;
+    cartItemsTable.querySelectorAll('.cart-item-price').forEach(itemPrice => {
+      total += parseInt(itemPrice.textContent.replace('₹', ''));
+    });
+    return total;
   }
 });
+
+
