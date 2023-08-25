@@ -14,9 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const products = document.querySelectorAll('.product');
   const cartItemsTable = document.querySelector('.cart-items tbody');
   const totalValueElement = document.querySelector('.total-value');
+  const placeOrderBtn = document.querySelector('.place-order-btn');
+
 
   const prices = [5, 7, 9, 11, 12]; // Prices for the five products
   let cartTotal = 0;
+
 
   products.forEach((product, index) => {
     const plusBtn = product.querySelector('.plus-btn');
@@ -24,6 +27,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const productCount = product.querySelector('.product-count');
 
     let count = 0;
+// Remove any existing event listeners
+placeOrderBtn.removeEventListener('click', placeOrderBtn);
+
+// Add the event listener
+placeOrderBtn.addEventListener('click', placeOrderBtn);
+    
+    placeOrderBtn.addEventListener('click', function () {
+      alert('Order placed successfully!');
+      clearCart();
+    });
 
     plusBtn.addEventListener('click', function () {
       count++;
@@ -74,6 +87,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     return total;
   }
+  function clearCart() {
+    cartItemsTable.innerHTML = '';
+    cartTotal = 0;
+    totalValueElement.textContent = '₹0';
+  }
 });
-
+  
 
